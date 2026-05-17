@@ -1,0 +1,879 @@
+# The Little Helper: core health package for Anders.
+#
+# Replace these placeholders after install:
+# - notify.mobile_app_anders_phone
+# - media_player.living_room_speaker
+# - sensor.anders_phone_steps
+# - person.anders
+
+input_boolean:
+  the_little_helper_persona_enabled:
+    name: Den Lille Hjælper stemme aktiv
+    icon: mdi:paperclip
+    initial: true
+  morning_pills_taken:
+    name: Morgenpiller taget
+    icon: mdi:pill
+  evening_pills_taken:
+    name: Aftenpiller taget
+    icon: mdi:pill
+  workout_completed_today:
+    name: Træning registreret i dag
+    icon: mdi:dumbbell
+  badge_pills_7days:
+    name: Badge - piller 7 dage
+    icon: mdi:medal
+  badge_pills_30days:
+    name: Badge - piller 30 dage
+    icon: mdi:trophy
+  badge_pills_100days:
+    name: Badge - piller 100 dage
+    icon: mdi:star-circle
+  badge_steps_7days:
+    name: Badge - skridt 7 dage
+    icon: mdi:shoe-print
+  badge_steps_30days:
+    name: Badge - skridt 30 dage
+    icon: mdi:walk
+  badge_workouts_4weeks:
+    name: Badge - træning 4 uger
+    icon: mdi:arm-flex
+  morning_routine_teeth:
+    name: Morgen - børst tænder
+    icon: mdi:toothbrush
+  morning_routine_breakfast:
+    name: Morgen - morgenmad
+    icon: mdi:food-croissant
+  morning_routine_keys:
+    name: Morgen - nøgler
+    icon: mdi:key
+  morning_routine_lunchbox:
+    name: Morgen - madpakke
+    icon: mdi:lunch-box
+  morning_routine_meds:
+    name: Morgen - medicin
+    icon: mdi:pill
+  evening_routine_teeth:
+    name: Aften - børst tænder
+    icon: mdi:toothbrush
+  evening_routine_prep_tomorrow:
+    name: Aften - klar til i morgen
+    icon: mdi:calendar-check
+  evening_routine_phone_charging:
+    name: Aften - telefon oplader
+    icon: mdi:cellphone-charging
+  evening_routine_meds:
+    name: Aften - medicin
+    icon: mdi:pill
+
+input_datetime:
+  morning_pill_time:
+    name: Tid til morgenpiller
+    has_date: false
+    has_time: true
+    initial: "08:00:00"
+  evening_pill_time:
+    name: Tid til aftenpiller
+    has_date: false
+    has_time: true
+    initial: "21:00:00"
+
+input_number:
+  steps_goal:
+    name: Skridtmål
+    min: 1000
+    max: 30000
+    step: 500
+    unit_of_measurement: skridt
+    mode: box
+    initial: 10000
+  weekly_workout_goal:
+    name: Træningsmål pr. uge
+    min: 1
+    max: 7
+    step: 1
+    mode: box
+    initial: 3
+  pomodoro_focus_minutes:
+    name: Fokusminutter
+    min: 5
+    max: 90
+    step: 5
+    unit_of_measurement: min
+    mode: slider
+    initial: 50
+  pomodoro_break_minutes:
+    name: Pauseminutter
+    min: 1
+    max: 30
+    step: 1
+    unit_of_measurement: min
+    mode: slider
+    initial: 10
+  mood_morning:
+    name: Morgenhumør
+    min: 0
+    max: 10
+    step: 1
+    mode: slider
+    icon: mdi:weather-sunset-up
+    initial: 0
+  mood_evening:
+    name: Aftenhumør
+    min: 0
+    max: 10
+    step: 1
+    mode: slider
+    icon: mdi:weather-night
+    initial: 0
+
+input_text:
+  mood_morning_note:
+    name: Note til morgenhumør
+    max: 255
+    icon: mdi:note-text
+  mood_evening_note:
+    name: Note til aftenhumør
+    max: 255
+    icon: mdi:note-text
+  the_little_helper_latest_report:
+    name: Seneste rapportstatus
+    max: 255
+    icon: mdi:file-document
+
+input_button:
+  manual_workout_log:
+    name: Log træning manuelt
+    icon: mdi:dumbbell
+  stop_pomodoro:
+    name: Stop Pomodoro
+    icon: mdi:stop-circle
+  generate_weekly_report_now:
+    name: Lav ugentlig rapport nu
+    icon: mdi:file-chart
+  the_little_helper_mascot_tap:
+    name: Tryk på maskot
+    icon: mdi:paperclip
+
+counter:
+  pill_streak_days:
+    name: Pille-streak
+    icon: mdi:pill
+    step: 1
+  steps_streak_days:
+    name: Skridt-streak
+    icon: mdi:shoe-print
+    step: 1
+  workout_streak_weeks:
+    name: Trænings-streak uger
+    icon: mdi:dumbbell
+    step: 1
+  workouts_this_week:
+    name: Træninger denne uge
+    icon: mdi:calendar-week
+    step: 1
+  pomodoro_sessions_today:
+    name: Pomodoroer i dag
+    icon: mdi:timer-check
+    step: 1
+  the_little_helper_mascot_taps:
+    name: Maskot-tryk
+    icon: mdi:gesture-tap
+    step: 1
+
+timer:
+  pomodoro_focus:
+    name: Pomodoro fokus
+  pomodoro_break:
+    name: Pomodoro pause
+
+zone:
+  - name: Gym
+    latitude: 55.6761
+    longitude: 12.5683
+    radius: 120
+    icon: mdi:dumbbell
+
+sensor:
+  - platform: statistics
+    name: Withings weight 7 day average
+    entity_id: sensor.withings_weight_anders
+    state_characteristic: mean
+    max_age:
+      days: 7
+  - platform: statistics
+    name: Withings weight 30 day average
+    entity_id: sensor.withings_weight_anders
+    state_characteristic: mean
+    max_age:
+      days: 30
+  - platform: statistics
+    name: Withings heart pulse 30 day average
+    entity_id: sensor.withings_heart_pulse_anders
+    state_characteristic: mean
+    max_age:
+      days: 30
+
+template:
+  - sensor:
+      - name: Daily Steps
+        unique_id: daily_steps
+        unit_of_measurement: skridt
+        icon: mdi:shoe-print
+        state: "{{ states('sensor.anders_phone_steps') | int(0) }}"
+      - name: Morning Routine Completion
+        unique_id: morning_routine_completion
+        unit_of_measurement: "%"
+        icon: mdi:clipboard-check
+        state: >
+          {% set items = [
+            is_state('input_boolean.morning_routine_teeth','on'),
+            is_state('input_boolean.morning_routine_breakfast','on'),
+            is_state('input_boolean.morning_routine_keys','on'),
+            is_state('input_boolean.morning_routine_lunchbox','on'),
+            is_state('input_boolean.morning_routine_meds','on')
+          ] %}
+          {{ ((items | select('equalto', true) | list | count) / (items | count) * 100) | round(0) }}
+      - name: Evening Routine Completion
+        unique_id: evening_routine_completion
+        unit_of_measurement: "%"
+        icon: mdi:clipboard-check-outline
+        state: >
+          {% set items = [
+            is_state('input_boolean.evening_routine_teeth','on'),
+            is_state('input_boolean.evening_routine_prep_tomorrow','on'),
+            is_state('input_boolean.evening_routine_phone_charging','on'),
+            is_state('input_boolean.evening_routine_meds','on')
+          ] %}
+          {{ ((items | select('equalto', true) | list | count) / (items | count) * 100) | round(0) }}
+      - name: Workout Weekly Status
+        unique_id: workout_weekly_status
+        icon: mdi:dumbbell
+        state: "{{ states('counter.workouts_this_week') | int(0) }} / {{ states('input_number.weekly_workout_goal') | int(3) }} denne uge"
+      - name: Blood Pressure Status
+        unique_id: blood_pressure_status
+        icon: mdi:heart-pulse
+        state: >
+          {% set sys = states('sensor.withings_systolic_blood_pressure_anders') | int(0) %}
+          {% set dia = states('sensor.withings_diastolic_blood_pressure_anders') | int(0) %}
+          {% if sys >= 140 or dia >= 90 %}Rød{% elif sys >= 130 or dia >= 85 %}Gul{% elif sys > 0 and dia > 0 %}Grøn{% else %}Ukendt{% endif %}
+      - name: Mood Delta Today
+        unique_id: mood_delta_today
+        icon: mdi:chart-line
+        state: >
+          {% set morning = states('input_number.mood_morning') | int(0) %}
+          {% set evening = states('input_number.mood_evening') | int(0) %}
+          {% if morning > 0 and evening > 0 %}{{ evening - morning }}{% else %}unknown{% endif %}
+      - name: The Little Helper Mood
+        unique_id: the_little_helper_mood
+        icon: mdi:paperclip
+        state: >
+          {% set hour = now().hour %}
+          {% set mood = states('input_number.mood_morning') | int(0) %}
+          {% set pending = is_state('input_boolean.morning_pills_taken','off') or is_state('input_boolean.evening_pills_taken','off') %}
+          {% set milestone = states('counter.pill_streak_days') | int(0) in [7,30,100] %}
+          {% if hour < 6 %}mascot_sleeping.png{% elif mood > 0 and mood < 4 %}mascot_comfort.png{% elif milestone %}mascot_celebrate.png{% elif pending %}mascot_thinking.png{% else %}mascot_idle.png{% endif %}
+      - name: The Little Helper Greeting
+        unique_id: the_little_helper_greeting
+        icon: mdi:message-text
+        state: >
+          {% set greetings = ['Hej Anders, Den Lille Hjælper her', 'Lille reminder fra mig', 'Det ser ud som om du er ved at bygge en god dag', 'Tjekker lige ind', 'Klar til en lille ting?'] %}
+          {{ greetings[now().day % (greetings | count)] }}
+      - name: The Little Helper Daily Tip
+        unique_id: the_little_helper_daily_tip
+        icon: mdi:lightbulb-on
+        state: >
+          {% set tips = ['Læg pillerne synligt ved noget, du allerede gør hver morgen.', 'En kort gåtur tæller også. Vi går efter retning, ikke perfektion.', 'Start timeren før motivationen dukker op.', 'Pak tasken i aften, så i morgen bliver lettere.', 'Drik et glas vand, før næste opgave.', 'Sæt skoene frem, hvis skridtene skal have et lille skub.', 'Gør næste handling så lille, at den næsten føles dum.', 'Brug pause-timeren som en aftale med kroppen.', 'Lav én ting færdig før du åbner næste fane.', 'Et lavt humør-tal er data, ikke en dom.', 'Hvis dagen vælter, så vælg én anker-rutine.', 'Morgenmad behøver ikke være perfekt for at tælle.', 'Nøgler samme sted hver dag sparer fremtidig energi.', 'En træning på 30 minutter er en rigtig træning.', 'Tjek kalenderen før aftensluk, ikke efter sengetid.', 'Skriv noten mens følelsen er frisk.', 'Gentagelser bygger systemet, ikke karakter.', 'Sæt lyd på vigtige påmindelser, når dagen er tung.', 'Fejr streaks, men start roligt igen når de knækker.', 'Vi tager næste lille skridt sammen.'] %}
+          {{ tips[now().timetuple().tm_yday % (tips | count)] }}
+  - binary_sensor:
+      - name: Steps Goal Met
+        unique_id: steps_goal_met
+        icon: mdi:shoe-print
+        state: "{{ states('sensor.daily_steps') | int(0) >= states('input_number.steps_goal') | int(10000) }}"
+
+script:
+  the_little_helper_notify:
+    alias: Den Lille Hjælper - send notifikation
+    mode: parallel
+    fields:
+      title:
+        description: Titel
+      message:
+        description: Besked
+      tag:
+        description: Android tag
+      actions:
+        description: Handlingsknapper
+    sequence:
+      - variables:
+          persona_enabled: "{{ is_state('input_boolean.the_little_helper_persona_enabled','on') }}"
+          prefix: >
+            {% set phrases = ['👋 Hej Anders, Den Lille Hjælper her', '✨ Lille reminder fra mig', '📎 Det ser ud som om du er ved at...', '🫶 Tjekker lige ind', '🎯 Klar til en lille ting?'] %}
+            {{ phrases[now().minute % (phrases | count)] }}
+          final_message: "{{ prefix ~ ' - ' ~ message if persona_enabled else message }}"
+      - service: notify.mobile_app_anders_phone
+        data:
+          title: "{{ title }}"
+          message: "{{ final_message }}"
+          data:
+            tag: "{{ tag | default('the_little_helper') }}"
+            actions: "{{ actions | default([]) }}"
+  the_little_helper_speak:
+    alias: Den Lille Hjælper - sig noget højt
+    mode: queued
+    fields:
+      message:
+        description: TTS-besked
+    sequence:
+      - service: tts.google_translate_say
+        target:
+          entity_id: media_player.living_room_speaker
+        data:
+          message: "Hej Anders, Den Lille Hjælper her. {{ message }}"
+          language: da
+  start_pomodoro:
+    alias: Start Pomodoro
+    mode: restart
+    sequence:
+      - service: timer.start
+        target:
+          entity_id: timer.pomodoro_focus
+        data:
+          duration: "00:{{ states('input_number.pomodoro_focus_minutes') | int(50) }}:00"
+      - service: script.the_little_helper_notify
+        data:
+          title: "Fokus startet 🎯"
+          message: "Vi går i fokus-mode nu. Én ting ad gangen."
+          tag: pomodoro
+  generate_weekly_report:
+    alias: Lav ugentlig rapport
+    mode: single
+    sequence:
+      - variables:
+          week: "{{ now().strftime('%Y-%W') }}"
+          report: >
+            Hej Anders 📎 - Den Lille Hjælper kigger tilbage på ugen sammen med dig.
+
+            ## Uge {{ now().strftime('%W') }} - kort opsummering
+            Solid uge at bygge videre på.
+
+            **Piller:** nuværende streak: {{ states('counter.pill_streak_days') }} dage.
+            **Skridt:** {{ states('sensor.daily_steps') }} / {{ states('input_number.steps_goal') | int(10000) }} i dag - streak: {{ states('counter.steps_streak_days') }} dage.
+            **Træning:** {{ states('counter.workouts_this_week') }} / {{ states('input_number.weekly_workout_goal') | int(3) }} pas.
+            **Vægt:** {{ states('sensor.withings_weight_anders') }} kg.
+            **Blodtryk:** {{ states('sensor.withings_systolic_blood_pressure_anders') }}/{{ states('sensor.withings_diastolic_blood_pressure_anders') }} mmHg ({{ states('sensor.blood_pressure_status') }}).
+            **Hvilepuls:** {{ states('sensor.withings_heart_pulse_anders') }} bpm.
+            **Humør:** morgen {{ states('input_number.mood_morning') }}, aften {{ states('input_number.mood_evening') }}, delta {{ states('sensor.mood_delta_today') }}.
+            **Rutiner:** morgen {{ states('sensor.morning_routine_completion') }}%, aften {{ states('sensor.evening_routine_completion') }}%.
+            **Pomodoro:** {{ states('counter.pomodoro_sessions_today') }} fokus-sessioner i dag.
+
+            **Fokus til næste uge:** Vælg den mindste rutine, der gør mandag lettere.
+
+            Vi tager næste uge med ro og retning. 📎
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.the_little_helper_latest_report
+        data:
+          value: "Uge {{ now().strftime('%W') }} er genereret og gemt i the_little_helper_history/reports."
+      - service: shell_command.the_little_helper_write_report
+        data:
+          week: "{{ week }}"
+          report: "{{ report | replace('\"', '\\\"') }}"
+      - service: script.the_little_helper_notify
+        data:
+          title: "Ugentlig rapport klar 📎"
+          message: "{{ report }}"
+          tag: weekly_report
+      - service: script.the_little_helper_speak
+        data:
+          message: "Ugens rapport er klar. Kort sagt: vi holder kursen og vælger én lille ting til næste uge."
+
+shell_command:
+  the_little_helper_log: "python3 /config/python_scripts/log_daily_completion.py log --category {{ category }} --status {{ status }} --value '{{ value }}'"
+  the_little_helper_write_report: "python3 /config/python_scripts/log_daily_completion.py report --week {{ week }} --content '{{ report }}'"
+
+automation:
+  - id: the_little_helper_startup_ready
+    alias: "Den Lille Hjælper - klar efter genstart"
+    mode: single
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - service: script.the_little_helper_notify
+        data:
+          title: "Den Lille Hjælper er klar igen 📎"
+          message: "Jeg er vågen igen og holder øje med de små ting."
+          tag: helper_startup
+  - id: reset_daily_health_flags
+    alias: "Nulstil daglige sundhedsflag"
+    mode: single
+    trigger:
+      - platform: time
+        at: "03:00:00"
+    action:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+            - input_boolean.morning_pills_taken
+            - input_boolean.evening_pills_taken
+            - input_boolean.workout_completed_today
+            - input_boolean.morning_routine_teeth
+            - input_boolean.morning_routine_breakfast
+            - input_boolean.morning_routine_keys
+            - input_boolean.morning_routine_lunchbox
+            - input_boolean.morning_routine_meds
+            - input_boolean.evening_routine_teeth
+            - input_boolean.evening_routine_prep_tomorrow
+            - input_boolean.evening_routine_phone_charging
+            - input_boolean.evening_routine_meds
+      - service: input_number.set_value
+        target:
+          entity_id:
+            - input_number.mood_morning
+            - input_number.mood_evening
+        data:
+          value: 0
+      - service: counter.reset
+        target:
+          entity_id:
+            - counter.pomodoro_sessions_today
+            - counter.the_little_helper_mascot_taps
+  - id: morning_pill_reminder_with_escalation
+    alias: "Morgenpiller - påmindelse med eskalering"
+    mode: restart
+    trigger:
+      - platform: time
+        at: input_datetime.morning_pill_time
+    condition:
+      - condition: state
+        entity_id: input_boolean.morning_pills_taken
+        state: "off"
+    action:
+      - repeat:
+          while:
+            - condition: state
+              entity_id: input_boolean.morning_pills_taken
+              state: "off"
+          sequence:
+            - service: script.the_little_helper_notify
+              data:
+                title: "Morgenpiller 💊"
+                message: "pillerne venter på dig. Tryk Taget, når de er klaret."
+                tag: morning_pills
+                actions:
+                  - action: MORNING_PILLS_TAKEN
+                    title: Taget
+                  - action: MORNING_PILLS_SNOOZE
+                    title: Snooze 10 min
+            - delay: "00:10:00"
+            - if:
+                - condition: state
+                  entity_id: input_boolean.morning_pills_taken
+                  state: "off"
+              then:
+                - service: script.the_little_helper_speak
+                  data:
+                    message: "Hov, morgenpillerne venter stadig på dig."
+  - id: evening_pill_reminder_with_escalation
+    alias: "Aftenpiller - påmindelse med eskalering"
+    mode: restart
+    trigger:
+      - platform: time
+        at: input_datetime.evening_pill_time
+    condition:
+      - condition: state
+        entity_id: input_boolean.evening_pills_taken
+        state: "off"
+    action:
+      - repeat:
+          while:
+            - condition: state
+              entity_id: input_boolean.evening_pills_taken
+              state: "off"
+          sequence:
+            - service: script.the_little_helper_notify
+              data:
+                title: "Aftenpiller 💊"
+                message: "aftenpillerne venter stille og roligt på dig."
+                tag: evening_pills
+                actions:
+                  - action: EVENING_PILLS_TAKEN
+                    title: Taget
+                  - action: EVENING_PILLS_SNOOZE
+                    title: Snooze 10 min
+            - delay: "00:10:00"
+            - if:
+                - condition: state
+                  entity_id: input_boolean.evening_pills_taken
+                  state: "off"
+              then:
+                - service: script.the_little_helper_speak
+                  data:
+                    message: "Hov, aftenpillerne venter stadig på dig."
+  - id: pill_notification_actions
+    alias: "Piller - håndter notifikationsknapper"
+    mode: parallel
+    trigger:
+      - platform: event
+        event_type: mobile_app_notification_action
+    action:
+      - choose:
+          - conditions: "{{ trigger.event.data.action == 'MORNING_PILLS_TAKEN' }}"
+            sequence:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id:
+                    - input_boolean.morning_pills_taken
+                    - input_boolean.morning_routine_meds
+          - conditions: "{{ trigger.event.data.action == 'EVENING_PILLS_TAKEN' }}"
+            sequence:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id:
+                    - input_boolean.evening_pills_taken
+                    - input_boolean.evening_routine_meds
+  - id: evaluate_daily_streaks
+    alias: "Evaluer daglige streaks"
+    mode: single
+    trigger:
+      - platform: time
+        at: "23:55:00"
+    action:
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.morning_pills_taken
+                state: "on"
+              - condition: state
+                entity_id: input_boolean.evening_pills_taken
+                state: "on"
+            sequence:
+              - service: counter.increment
+                target:
+                  entity_id: counter.pill_streak_days
+        default:
+          - service: counter.reset
+            target:
+              entity_id: counter.pill_streak_days
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: binary_sensor.steps_goal_met
+                state: "on"
+            sequence:
+              - service: counter.increment
+                target:
+                  entity_id: counter.steps_streak_days
+        default:
+          - service: counter.reset
+            target:
+              entity_id: counter.steps_streak_days
+  - id: award_badges
+    alias: "Tildel badges"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - counter.pill_streak_days
+          - counter.steps_streak_days
+          - counter.workout_streak_weeks
+    action:
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.pill_streak_days') | int(0) >= 7 }}"
+        then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.badge_pills_7days
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.pill_streak_days') | int(0) >= 30 }}"
+        then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.badge_pills_30days
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.pill_streak_days') | int(0) >= 100 }}"
+        then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.badge_pills_100days
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.steps_streak_days') | int(0) >= 7 }}"
+        then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.badge_steps_7days
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.steps_streak_days') | int(0) >= 30 }}"
+        then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.badge_steps_30days
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.workout_streak_weeks') | int(0) >= 4 }}"
+        then:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: input_boolean.badge_workouts_4weeks
+  - id: gym_zone_workout_detection
+    alias: "Træning - registrer gymbesøg"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: person.anders
+        to: Gym
+        for: "00:30:00"
+    action:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.workout_completed_today
+  - id: manual_workout_log
+    alias: "Træning - manuel registrering"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: input_button.manual_workout_log
+    action:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.workout_completed_today
+  - id: workout_completed_actions
+    alias: "Træning - bekræft og tæl"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: input_boolean.workout_completed_today
+        to: "on"
+    action:
+      - service: counter.increment
+        target:
+          entity_id: counter.workouts_this_week
+      - service: script.the_little_helper_notify
+        data:
+          title: "Træning registreret 💪"
+          message: "stærkt arbejde. Vi tæller den med i ugen."
+          tag: workout
+  - id: reset_weekly_workouts
+    alias: "Træning - nulstil uge"
+    mode: single
+    trigger:
+      - platform: time
+        at: "00:01:00"
+    condition:
+      - condition: time
+        weekday:
+          - mon
+    action:
+      - choose:
+          - conditions: "{{ states('counter.workouts_this_week') | int(0) >= states('input_number.weekly_workout_goal') | int(3) }}"
+            sequence:
+              - service: counter.increment
+                target:
+                  entity_id: counter.workout_streak_weeks
+        default:
+          - service: counter.reset
+            target:
+              entity_id: counter.workout_streak_weeks
+      - service: counter.reset
+        target:
+          entity_id: counter.workouts_this_week
+  - id: pomodoro_focus_finished
+    alias: "Pomodoro - fokus færdig"
+    mode: single
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.pomodoro_focus
+    action:
+      - service: counter.increment
+        target:
+          entity_id: counter.pomodoro_sessions_today
+      - service: script.the_little_helper_notify
+        data:
+          title: "Tid til pause ☕"
+          message: "godt fokuseret. Nu tager vi pausen rigtigt."
+          tag: pomodoro
+      - service: script.the_little_helper_speak
+        data:
+          message: "Fokus-timeren er færdig. Tid til pause."
+      - service: timer.start
+        target:
+          entity_id: timer.pomodoro_break
+        data:
+          duration: "00:{{ states('input_number.pomodoro_break_minutes') | int(10) }}:00"
+  - id: pomodoro_break_finished
+    alias: "Pomodoro - pause færdig"
+    mode: single
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.pomodoro_break
+    action:
+      - service: script.the_little_helper_notify
+        data:
+          title: "Tilbage til arbejde 🚀"
+          message: "pausen er landet. Skal vi tage næste lille fokusblok?"
+          tag: pomodoro
+  - id: stop_pomodoro_button
+    alias: "Pomodoro - stopknap"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: input_button.stop_pomodoro
+    action:
+      - service: timer.cancel
+        target:
+          entity_id:
+            - timer.pomodoro_focus
+            - timer.pomodoro_break
+  - id: mood_prompt_morning
+    alias: "Humør - morgenprompt"
+    mode: single
+    trigger:
+      - platform: time
+        at: "09:00:00"
+      - platform: time
+        at: "11:00:00"
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.mood_morning') | int(0) == 0 }}"
+    action:
+      - service: script.the_little_helper_notify
+        data:
+          title: "Morgenhumør"
+          message: "hvordan har du det i dag? Vælg 1-10."
+          tag: mood_morning
+          actions:
+            - action: MOOD_MORNING_1
+              title: "1"
+            - action: MOOD_MORNING_2
+              title: "2"
+            - action: MOOD_MORNING_3
+              title: "3"
+            - action: MOOD_MORNING_4
+              title: "4"
+            - action: MOOD_MORNING_5
+              title: "5"
+            - action: MOOD_MORNING_6
+              title: "6"
+            - action: MOOD_MORNING_7
+              title: "7"
+            - action: MOOD_MORNING_8
+              title: "8"
+            - action: MOOD_MORNING_9
+              title: "9"
+            - action: MOOD_MORNING_10
+              title: "10"
+  - id: mood_prompt_evening
+    alias: "Humør - aftenprompt"
+    mode: single
+    trigger:
+      - platform: time
+        at: "21:30:00"
+      - platform: time
+        at: "22:30:00"
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.mood_evening') | int(0) == 0 }}"
+    action:
+      - service: script.the_little_helper_notify
+        data:
+          title: "Aftenhumør"
+          message: "hvordan har dagen været? Vælg 1-10."
+          tag: mood_evening
+          actions:
+            - action: MOOD_EVENING_1
+              title: "1"
+            - action: MOOD_EVENING_2
+              title: "2"
+            - action: MOOD_EVENING_3
+              title: "3"
+            - action: MOOD_EVENING_4
+              title: "4"
+            - action: MOOD_EVENING_5
+              title: "5"
+            - action: MOOD_EVENING_6
+              title: "6"
+            - action: MOOD_EVENING_7
+              title: "7"
+            - action: MOOD_EVENING_8
+              title: "8"
+            - action: MOOD_EVENING_9
+              title: "9"
+            - action: MOOD_EVENING_10
+              title: "10"
+  - id: mood_notification_actions
+    alias: "Humør - håndter notifikationsknapper"
+    mode: parallel
+    trigger:
+      - platform: event
+        event_type: mobile_app_notification_action
+    action:
+      - variables:
+          action_name: "{{ trigger.event.data.action | default('') }}"
+      - choose:
+          - conditions: "{{ action_name.startswith('MOOD_MORNING_') }}"
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.mood_morning
+                data:
+                  value: "{{ action_name.split('_')[-1] | int }}"
+          - conditions: "{{ action_name.startswith('MOOD_EVENING_') }}"
+            sequence:
+              - service: input_number.set_value
+                target:
+                  entity_id: input_number.mood_evening
+                data:
+                  value: "{{ action_name.split('_')[-1] | int }}"
+  - id: weekly_report_sunday
+    alias: "Ugentlig rapport - søndag aften"
+    mode: single
+    trigger:
+      - platform: time
+        at: "20:00:00"
+    condition:
+      - condition: time
+        weekday:
+          - sun
+    action:
+      - service: script.generate_weekly_report
+  - id: weekly_report_button
+    alias: "Ugentlig rapport - manuel knap"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: input_button.generate_weekly_report_now
+    action:
+      - service: script.generate_weekly_report
+  - id: mascot_easter_egg
+    alias: "Den Lille Hjælper - maskot easter egg"
+    mode: restart
+    trigger:
+      - platform: state
+        entity_id: input_button.the_little_helper_mascot_tap
+    action:
+      - service: counter.increment
+        target:
+          entity_id: counter.the_little_helper_mascot_taps
+      - delay: "00:00:05"
+      - if:
+          - condition: template
+            value_template: "{{ states('counter.the_little_helper_mascot_taps') | int(0) >= 3 }}"
+        then:
+          - service: script.the_little_helper_notify
+            data:
+              title: "Du fandt mig 📎"
+              message: "det tæller som en lille sejr. Videre med ro på."
+              tag: helper_easter_egg
+      - service: counter.reset
+        target:
+          entity_id: counter.the_little_helper_mascot_taps

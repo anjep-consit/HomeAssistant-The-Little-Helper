@@ -1,0 +1,58 @@
+blueprint:
+  name: Den Lille Hjælper - pillepåmindelse med eskalering
+  description: Gentager en pillepåmindelse hvert 10. minut og bruger TTS efter 20 minutter.
+  domain: automation
+  input:
+    pill_time:
+      name: Tid
+      selector:
+        entity:
+          domain: input_datetime
+    taken_boolean:
+      name: Taget-flag
+      selector:
+        entity:
+          domain: input_boolean
+    notification_title:
+      name: Notifikationstitel
+      default: "Piller 💊"
+      selector:
+        text:
+    notification_message:
+      name: Notifikationsbesked
+      default: "pillerne venter på dig."
+      selector:
+        text:
+
+mode: restart
+
+trigger:
+  - platform: time
+    at: !input pill_time
+
+condition:
+  - condition: state
+    entity_id: !input taken_boolean
+    state: "off"
+
+action:
+  - repeat:
+      while:
+        - condition: state
+          entity_id: !input taken_boolean
+          state: "off"
+      sequence:
+        - service: script.the_little_helper_notify
+          data:
+            title: !input notification_title
+            message: !input notification_message
+            tag: pill_reminder
+        - delay: "00:10:00"
+        - if:
+            - condition: state
+              entity_id: !input taken_boolean
+              state: "off"
+          then:
+            - service: script.the_little_helper_speak
+              data:
+                message: "Pillerne venter stadig på dig."

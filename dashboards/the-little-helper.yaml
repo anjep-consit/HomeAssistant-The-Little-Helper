@@ -1,0 +1,215 @@
+title: "📎 Den Lille Hjælper"
+views:
+  - title: "📎 Den Lille Hjælper"
+    path: the-little-helper
+    icon: mdi:paperclip
+    cards:
+      - type: picture-elements
+        image: /local/the_little_helper/mascot_idle.png
+        elements:
+          - type: image
+            entity: sensor.the_little_helper_mood
+            image: /local/the_little_helper/mascot_idle.png
+            state_image:
+              mascot_idle.png: /local/the_little_helper/mascot_idle.png
+              mascot_thinking.png: /local/the_little_helper/mascot_thinking.png
+              mascot_celebrate.png: /local/the_little_helper/mascot_celebrate.png
+              mascot_comfort.png: /local/the_little_helper/mascot_comfort.png
+              mascot_sleeping.png: /local/the_little_helper/mascot_sleeping.png
+            style:
+              top: 22%
+              left: 86%
+              width: 18%
+            tap_action:
+              action: call-service
+              service: input_button.press
+              target:
+                entity_id: input_button.the_little_helper_mascot_tap
+          - type: state-label
+            entity: sensor.the_little_helper_greeting
+            style:
+              top: 18%
+              left: 36%
+              font-size: 20px
+              font-weight: 700
+      - type: grid
+        title: Dagens status
+        columns: 2
+        square: false
+        cards:
+          - type: tile
+            entity: input_boolean.morning_pills_taken
+            name: Morgenpiller
+          - type: tile
+            entity: input_boolean.evening_pills_taken
+            name: Aftenpiller
+          - type: tile
+            entity: sensor.daily_steps
+            name: Skridt
+          - type: tile
+            entity: sensor.workout_weekly_status
+            name: Træning
+          - type: tile
+            entity: sensor.mood_delta_today
+            name: Humør delta
+      - type: grid
+        title: Hurtige handlinger
+        columns: 2
+        square: false
+        cards:
+          - type: button
+            name: Morgenpille taget
+            icon: mdi:pill
+            tap_action:
+              action: call-service
+              service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.morning_pills_taken
+          - type: button
+            name: Aftenpille taget
+            icon: mdi:pill
+            tap_action:
+              action: call-service
+              service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.evening_pills_taken
+          - type: button
+            entity: input_button.manual_workout_log
+            name: Log træning manuelt
+          - type: button
+            name: Start Pomodoro
+            icon: mdi:timer-play
+            tap_action:
+              action: call-service
+              service: script.start_pomodoro
+          - type: button
+            entity: input_button.stop_pomodoro
+            name: Stop Pomodoro
+          - type: button
+            entity: input_button.generate_weekly_report_now
+            name: Lav ugentlig rapport nu
+      - type: entities
+        title: Humør i dag
+        entities:
+          - input_number.mood_morning
+          - input_text.mood_morning_note
+          - input_number.mood_evening
+          - input_text.mood_evening_note
+          - sensor.mood_delta_today
+      - type: custom:mini-graph-card
+        name: Humør - 14 dage
+        hours_to_show: 336
+        points_per_hour: 0.05
+        entities:
+          - entity: input_number.mood_morning
+            name: Morgen
+          - entity: input_number.mood_evening
+            name: Aften
+      - type: entities
+        title: Morgenrutine
+        show_header_toggle: false
+        entities:
+          - input_boolean.morning_routine_teeth
+          - input_boolean.morning_routine_breakfast
+          - input_boolean.morning_routine_keys
+          - input_boolean.morning_routine_lunchbox
+          - input_boolean.morning_routine_meds
+          - sensor.morning_routine_completion
+      - type: entities
+        title: Aftenrutine
+        show_header_toggle: false
+        entities:
+          - input_boolean.evening_routine_teeth
+          - input_boolean.evening_routine_prep_tomorrow
+          - input_boolean.evening_routine_phone_charging
+          - input_boolean.evening_routine_meds
+          - sensor.evening_routine_completion
+      - type: entities
+        title: Pomodoro
+        entities:
+          - timer.pomodoro_focus
+          - timer.pomodoro_break
+          - input_number.pomodoro_focus_minutes
+          - input_number.pomodoro_break_minutes
+          - counter.pomodoro_sessions_today
+      - type: vertical-stack
+        title: Sundhedsdata
+        cards:
+          - type: custom:mini-graph-card
+            name: Vægt
+            hours_to_show: 720
+            entities:
+              - sensor.withings_weight_anders
+              - sensor.withings_weight_7_day_average
+              - sensor.withings_weight_30_day_average
+          - type: entities
+            title: Blodtryk og puls
+            entities:
+              - sensor.withings_systolic_blood_pressure_anders
+              - sensor.withings_diastolic_blood_pressure_anders
+              - sensor.blood_pressure_status
+              - sensor.withings_heart_pulse_anders
+              - sensor.withings_heart_pulse_30_day_average
+      - type: markdown
+        title: Ugentlig rapport
+        content: "{{ states('input_text.the_little_helper_latest_report') }}"
+      - type: custom:calendar-heatmap-card
+        title: Heatmap
+        entities:
+          - entity: binary_sensor.steps_goal_met
+            name: Skridt
+          - entity: input_boolean.morning_pills_taken
+            name: Morgenpiller
+          - entity: input_boolean.evening_pills_taken
+            name: Aftenpiller
+          - entity: input_boolean.workout_completed_today
+            name: Træning
+      - type: grid
+        title: Badges
+        columns: 3
+        square: false
+        cards:
+          - type: custom:button-card
+            entity: input_boolean.badge_pills_7days
+            name: Piller 7 dage
+            icon: mdi:medal
+          - type: custom:button-card
+            entity: input_boolean.badge_pills_30days
+            name: Piller 30 dage
+            icon: mdi:trophy
+          - type: custom:button-card
+            entity: input_boolean.badge_pills_100days
+            name: Piller 100 dage
+            icon: mdi:star-circle
+          - type: custom:button-card
+            entity: input_boolean.badge_steps_7days
+            name: Skridt 7 dage
+            icon: mdi:shoe-print
+          - type: custom:button-card
+            entity: input_boolean.badge_steps_30days
+            name: Skridt 30 dage
+            icon: mdi:walk
+          - type: custom:button-card
+            entity: input_boolean.badge_workouts_4weeks
+            name: Træning 4 uger
+            icon: mdi:arm-flex
+      - type: custom:bar-card
+        title: Progress
+        entities:
+          - entity: sensor.daily_steps
+            name: Skridt
+            max: 10000
+          - entity: counter.workouts_this_week
+            name: Træning
+            max: 3
+          - entity: counter.pomodoro_sessions_today
+            name: Pomodoro
+            max: 8
+      - type: markdown
+        title: Tips fra Hjælperen
+        content: "{{ states('sensor.the_little_helper_daily_tip') }}"
+      - type: entities
+        title: Persona-styring
+        entities:
+          - entity: input_boolean.the_little_helper_persona_enabled
+            name: Den Lille Hjælper stemme aktiv

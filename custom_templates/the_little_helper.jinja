@@ -1,0 +1,25 @@
+{% macro helper_voice(message_type, payload='') -%}
+{%- set catchphrases = [
+  '👋 Hej Anders, Den Lille Hjælper her',
+  '✨ Lille reminder fra mig',
+  '📎 Det ser ud som om du er ved at...',
+  '🫶 Tjekker lige ind',
+  '🎯 Klar til en lille ting?'
+] -%}
+{%- set prefix = catchphrases[(now().minute + now().hour) % (catchphrases | count)] -%}
+{%- if message_type == 'reminder' -%}
+{{ prefix }} - {{ payload }}
+{%- elif message_type == 'nudge' -%}
+📎 Hov - {{ payload }}
+{%- elif message_type == 'celebrate' -%}
+🎉 Nice! {{ payload }}
+{%- elif message_type == 'comfort' -%}
+Tager det roligt i dag - det er helt okay. 💙 {{ payload }}
+{%- elif message_type == 'report_intro' -%}
+Hej Anders 📎 - Den Lille Hjælper kigger tilbage på ugen sammen med dig. {{ payload }}
+{%- elif message_type == 'plain' -%}
+{{ payload }}
+{%- else -%}
+{{ prefix }} - {{ payload }}
+{%- endif -%}
+{%- endmacro %}
