@@ -2,7 +2,7 @@
 #
 # Replace these placeholders after install:
 # - notify.mobile_app_anders_pixel_8_pro
-# - media_player.living_room_speaker
+# - media_player.musik_rummet
 # - sensor.anders_phone_steps
 # - person.anders
 
@@ -327,7 +327,7 @@ script:
     sequence:
       - service: tts.google_translate_say
         target:
-          entity_id: media_player.living_room_speaker
+          entity_id: media_player.musik_rummet
         data:
           message: "Hej Anders, Den Lille HjÃ¦lper her. {{ message }}"
           language: da
@@ -877,4 +877,5 @@ automation:
       - service: counter.reset
         target:
           entity_id: counter.the_little_helper_mascot_taps
+
 
