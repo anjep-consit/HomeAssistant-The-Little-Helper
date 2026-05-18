@@ -319,18 +319,25 @@ script:
             tag: "{{ tag | default('the_little_helper') }}"
             actions: "{{ actions | default([]) }}"
   the_little_helper_speak:
-    alias: Den Lille HjÃ¦lper - sig noget hÃ¸jt
+    alias: Den Lille Hjælper - sig noget højt
     mode: queued
     fields:
       message:
         description: TTS-besked
     sequence:
-      - service: tts.google_translate_say
+      - service: media_player.volume_set
         target:
           entity_id: media_player.musik_rummet
         data:
-          message: "Hej Anders, Den Lille HjÃ¦lper her. {{ message }}"
-          language: da
+          volume_level: 0.35
+      - service: tts.speak
+        target:
+          entity_id: tts.home_assistant_cloud
+        data:
+          media_player_entity_id: media_player.musik_rummet
+          message: "Hej Anders, Den Lille Hjælper her. {{ message }}"
+          language: da-DK
+          cache: true
   start_pomodoro:
     alias: Start Pomodoro
     mode: restart
