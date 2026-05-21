@@ -8,7 +8,7 @@
 
 input_boolean:
   the_little_helper_persona_enabled:
-    name: Den Lille HjÃ¦lper stemme aktiv
+    name: Den Lille Hjælper stemme aktiv
     icon: mdi:paperclip
     initial: true
   morning_pills_taken:
@@ -18,7 +18,7 @@ input_boolean:
     name: Aftenpiller taget
     icon: mdi:pill
   workout_completed_today:
-    name: TrÃ¦ning registreret i dag
+    name: Træning registreret i dag
     icon: mdi:dumbbell
   badge_pills_7days:
     name: Badge - piller 7 dage
@@ -36,16 +36,16 @@ input_boolean:
     name: Badge - skridt 30 dage
     icon: mdi:walk
   badge_workouts_4weeks:
-    name: Badge - trÃ¦ning 4 uger
+    name: Badge - træning 4 uger
     icon: mdi:arm-flex
   morning_routine_teeth:
-    name: Morgen - bÃ¸rst tÃ¦nder
+    name: Morgen - børst tænder
     icon: mdi:toothbrush
   morning_routine_breakfast:
     name: Morgen - morgenmad
     icon: mdi:food-croissant
   morning_routine_keys:
-    name: Morgen - nÃ¸gler
+    name: Morgen - nøgler
     icon: mdi:key
   morning_routine_lunchbox:
     name: Morgen - madpakke
@@ -54,7 +54,7 @@ input_boolean:
     name: Morgen - medicin
     icon: mdi:pill
   evening_routine_teeth:
-    name: Aften - bÃ¸rst tÃ¦nder
+    name: Aften - børst tænder
     icon: mdi:toothbrush
   evening_routine_prep_tomorrow:
     name: Aften - klar til i morgen
@@ -80,7 +80,7 @@ input_datetime:
 
 input_number:
   steps_goal:
-    name: SkridtmÃ¥l
+    name: Skridtmål
     min: 1000
     max: 30000
     step: 500
@@ -88,7 +88,7 @@ input_number:
     mode: box
     initial: 10000
   weekly_workout_goal:
-    name: TrÃ¦ningsmÃ¥l pr. uge
+    name: Træningsmål pr. uge
     min: 1
     max: 7
     step: 1
@@ -111,7 +111,7 @@ input_number:
     mode: slider
     initial: 10
   mood_morning:
-    name: MorgenhumÃ¸r
+    name: Morgenhumør
     min: 0
     max: 10
     step: 1
@@ -119,7 +119,7 @@ input_number:
     icon: mdi:weather-sunset-up
     initial: 0
   mood_evening:
-    name: AftenhumÃ¸r
+    name: Aftenhumør
     min: 0
     max: 10
     step: 1
@@ -129,11 +129,11 @@ input_number:
 
 input_text:
   mood_morning_note:
-    name: Note til morgenhumÃ¸r
+    name: Note til morgenhumør
     max: 255
     icon: mdi:note-text
   mood_evening_note:
-    name: Note til aftenhumÃ¸r
+    name: Note til aftenhumør
     max: 255
     icon: mdi:note-text
   the_little_helper_latest_report:
@@ -143,7 +143,7 @@ input_text:
 
 input_button:
   manual_workout_log:
-    name: Log trÃ¦ning manuelt
+    name: Log træning manuelt
     icon: mdi:dumbbell
   stop_pomodoro:
     name: Stop Pomodoro
@@ -152,7 +152,7 @@ input_button:
     name: Lav ugentlig rapport nu
     icon: mdi:file-chart
   the_little_helper_mascot_tap:
-    name: Tryk pÃ¥ maskot
+    name: Tryk på maskot
     icon: mdi:paperclip
 
 counter:
@@ -165,11 +165,11 @@ counter:
     icon: mdi:shoe-print
     step: 1
   workout_streak_weeks:
-    name: TrÃ¦nings-streak uger
+    name: Trænings-streak uger
     icon: mdi:dumbbell
     step: 1
   workouts_this_week:
-    name: TrÃ¦ninger denne uge
+    name: Træninger denne uge
     icon: mdi:calendar-week
     step: 1
   pomodoro_sessions_today:
@@ -256,7 +256,7 @@ template:
         state: >
           {% set sys = states('sensor.withings_systolic_blood_pressure_anders') | int(0) %}
           {% set dia = states('sensor.withings_diastolic_blood_pressure_anders') | int(0) %}
-          {% if sys >= 140 or dia >= 90 %}RÃ¸d{% elif sys >= 130 or dia >= 85 %}Gul{% elif sys > 0 and dia > 0 %}GrÃ¸n{% else %}Ukendt{% endif %}
+          {% if sys >= 140 or dia >= 90 %}Rød{% elif sys >= 130 or dia >= 85 %}Gul{% elif sys > 0 and dia > 0 %}Grøn{% else %}Ukendt{% endif %}
       - name: Mood Delta Today
         unique_id: mood_delta_today
         icon: mdi:chart-line
@@ -277,13 +277,13 @@ template:
         unique_id: the_little_helper_greeting
         icon: mdi:message-text
         state: >
-          {% set greetings = ['Hej Anders, Den Lille HjÃ¦lper her', 'Lille reminder fra mig', 'Det ser ud som om du er ved at bygge en god dag', 'Tjekker lige ind', 'Klar til en lille ting?'] %}
+          {% set greetings = ['Hej Anders, Den Lille Hjælper her', 'Lille reminder fra mig', 'Det ser ud som om du er ved at bygge en god dag', 'Tjekker lige ind', 'Klar til en lille ting?'] %}
           {{ greetings[now().day % (greetings | count)] }}
       - name: The Little Helper Daily Tip
         unique_id: the_little_helper_daily_tip
         icon: mdi:lightbulb-on
         state: >
-          {% set tips = ['LÃ¦g pillerne synligt ved noget, du allerede gÃ¸r hver morgen.', 'En kort gÃ¥tur tÃ¦ller ogsÃ¥. Vi gÃ¥r efter retning, ikke perfektion.', 'Start timeren fÃ¸r motivationen dukker op.', 'Pak tasken i aften, sÃ¥ i morgen bliver lettere.', 'Drik et glas vand, fÃ¸r nÃ¦ste opgave.', 'SÃ¦t skoene frem, hvis skridtene skal have et lille skub.', 'GÃ¸r nÃ¦ste handling sÃ¥ lille, at den nÃ¦sten fÃ¸les dum.', 'Brug pause-timeren som en aftale med kroppen.', 'Lav Ã©n ting fÃ¦rdig fÃ¸r du Ã¥bner nÃ¦ste fane.', 'Et lavt humÃ¸r-tal er data, ikke en dom.', 'Hvis dagen vÃ¦lter, sÃ¥ vÃ¦lg Ã©n anker-rutine.', 'Morgenmad behÃ¸ver ikke vÃ¦re perfekt for at tÃ¦lle.', 'NÃ¸gler samme sted hver dag sparer fremtidig energi.', 'En trÃ¦ning pÃ¥ 30 minutter er en rigtig trÃ¦ning.', 'Tjek kalenderen fÃ¸r aftensluk, ikke efter sengetid.', 'Skriv noten mens fÃ¸lelsen er frisk.', 'Gentagelser bygger systemet, ikke karakter.', 'SÃ¦t lyd pÃ¥ vigtige pÃ¥mindelser, nÃ¥r dagen er tung.', 'Fejr streaks, men start roligt igen nÃ¥r de knÃ¦kker.', 'Vi tager nÃ¦ste lille skridt sammen.'] %}
+          {% set tips = ['Læg pillerne synligt ved noget, du allerede gør hver morgen.', 'En kort gåtur tæller også. Vi går efter retning, ikke perfektion.', 'Start timeren før motivationen dukker op.', 'Pak tasken i aften, så i morgen bliver lettere.', 'Drik et glas vand, før næste opgave.', 'Sæt skoene frem, hvis skridtene skal have et lille skub.', 'Gør næste handling så lille, at den næsten føles dum.', 'Brug pause-timeren som en aftale med kroppen.', 'Lav én ting færdig før du åbner næste fane.', 'Et lavt humør-tal er data, ikke en dom.', 'Hvis dagen vælter, så vælg én anker-rutine.', 'Morgenmad behøver ikke være perfekt for at tælle.', 'Nøgler samme sted hver dag sparer fremtidig energi.', 'En træning på 30 minutter er en rigtig træning.', 'Tjek kalenderen før aftensluk, ikke efter sengetid.', 'Skriv noten mens følelsen er frisk.', 'Gentagelser bygger systemet, ikke karakter.', 'Sæt lyd på vigtige påmindelser, når dagen er tung.', 'Fejr streaks, men start roligt igen når de knækker.', 'Vi tager næste lille skridt sammen.'] %}
           {{ tips[now().timetuple().tm_yday % (tips | count)] }}
   - binary_sensor:
       - name: Steps Goal Met
@@ -293,7 +293,7 @@ template:
 
 script:
   the_little_helper_notify:
-    alias: Den Lille HjÃ¦lper - send notifikation
+    alias: Den Lille Hjælper - send notifikation
     mode: parallel
     fields:
       title:
@@ -308,7 +308,7 @@ script:
       - variables:
           persona_enabled: "{{ is_state('input_boolean.the_little_helper_persona_enabled','on') }}"
           prefix: >
-            {% set phrases = ['ðŸ‘‹ Hej Anders, Den Lille HjÃ¦lper her', 'âœ¨ Lille reminder fra mig', 'ðŸ“Ž Det ser ud som om du er ved at...', 'ðŸ«¶ Tjekker lige ind', 'ðŸŽ¯ Klar til en lille ting?'] %}
+            {% set phrases = ['👋 Hej Anders, Den Lille Hjælper her', '✨ Lille reminder fra mig', '📎 Det ser ud som om du er ved at...', '🫶 Tjekker lige ind', '🎯 Klar til en lille ting?'] %}
             {{ phrases[now().minute % (phrases | count)] }}
           final_message: "{{ prefix ~ ' - ' ~ message if persona_enabled else message }}"
       - service: notify.mobile_app_anders_pixel_8_pro
@@ -349,8 +349,8 @@ script:
           duration: "00:{{ states('input_number.pomodoro_focus_minutes') | int(50) }}:00"
       - service: script.the_little_helper_notify
         data:
-          title: "Fokus startet ðŸŽ¯"
-          message: "Vi gÃ¥r i fokus-mode nu. Ã‰n ting ad gangen."
+          title: "Fokus startet 🎯"
+          message: "Vi går i fokus-mode nu. Én ting ad gangen."
           tag: pomodoro
   generate_weekly_report:
     alias: Lav ugentlig rapport
@@ -359,24 +359,24 @@ script:
       - variables:
           week: "{{ now().strftime('%Y-%W') }}"
           report: >
-            Hej Anders ðŸ“Ž - Den Lille HjÃ¦lper kigger tilbage pÃ¥ ugen sammen med dig.
+            Hej Anders 📎 - Den Lille Hjælper kigger tilbage på ugen sammen med dig.
 
             ## Uge {{ now().strftime('%W') }} - kort opsummering
-            Solid uge at bygge videre pÃ¥.
+            Solid uge at bygge videre på.
 
-            **Piller:** nuvÃ¦rende streak: {{ states('counter.pill_streak_days') }} dage.
+            **Piller:** nuværende streak: {{ states('counter.pill_streak_days') }} dage.
             **Skridt:** {{ states('sensor.daily_steps') }} / {{ states('input_number.steps_goal') | int(10000) }} i dag - streak: {{ states('counter.steps_streak_days') }} dage.
-            **TrÃ¦ning:** {{ states('counter.workouts_this_week') }} / {{ states('input_number.weekly_workout_goal') | int(3) }} pas.
-            **VÃ¦gt:** {{ states('sensor.withings_weight_anders') }} kg.
+            **Træning:** {{ states('counter.workouts_this_week') }} / {{ states('input_number.weekly_workout_goal') | int(3) }} pas.
+            **Vægt:** {{ states('sensor.withings_weight_anders') }} kg.
             **Blodtryk:** {{ states('sensor.withings_systolic_blood_pressure_anders') }}/{{ states('sensor.withings_diastolic_blood_pressure_anders') }} mmHg ({{ states('sensor.blood_pressure_status') }}).
             **Hvilepuls:** {{ states('sensor.withings_heart_pulse_anders') }} bpm.
-            **HumÃ¸r:** morgen {{ states('input_number.mood_morning') }}, aften {{ states('input_number.mood_evening') }}, delta {{ states('sensor.mood_delta_today') }}.
+            **Humør:** morgen {{ states('input_number.mood_morning') }}, aften {{ states('input_number.mood_evening') }}, delta {{ states('sensor.mood_delta_today') }}.
             **Rutiner:** morgen {{ states('sensor.morning_routine_completion') }}%, aften {{ states('sensor.evening_routine_completion') }}%.
             **Pomodoro:** {{ states('counter.pomodoro_sessions_today') }} fokus-sessioner i dag.
 
-            **Fokus til nÃ¦ste uge:** VÃ¦lg den mindste rutine, der gÃ¸r mandag lettere.
+            **Fokus til næste uge:** Vælg den mindste rutine, der gør mandag lettere.
 
-            Vi tager nÃ¦ste uge med ro og retning. ðŸ“Ž
+            Vi tager næste uge med ro og retning. 📎
       - service: input_text.set_value
         target:
           entity_id: input_text.the_little_helper_latest_report
@@ -388,12 +388,12 @@ script:
           report: "{{ report | replace('\"', '\\\"') }}"
       - service: script.the_little_helper_notify
         data:
-          title: "Ugentlig rapport klar ðŸ“Ž"
+          title: "Ugentlig rapport klar 📎"
           message: "{{ report }}"
           tag: weekly_report
       - service: script.the_little_helper_speak
         data:
-          message: "Ugens rapport er klar. Kort sagt: vi holder kursen og vÃ¦lger Ã©n lille ting til nÃ¦ste uge."
+          message: "Ugens rapport er klar. Kort sagt: vi holder kursen og vælger én lille ting til næste uge."
 
 shell_command:
   the_little_helper_log: "python3 /config/python_scripts/log_daily_completion.py log --category {{ category }} --status {{ status }} --value '{{ value }}'"
@@ -401,7 +401,7 @@ shell_command:
 
 automation:
   - id: the_little_helper_startup_ready
-    alias: "Den Lille HjÃ¦lper - klar efter genstart"
+    alias: "Den Lille Hjælper - klar efter genstart"
     mode: single
     trigger:
       - platform: homeassistant
@@ -409,8 +409,8 @@ automation:
     action:
       - service: script.the_little_helper_notify
         data:
-          title: "Den Lille HjÃ¦lper er klar igen ðŸ“Ž"
-          message: "Jeg er vÃ¥gen igen og holder Ã¸je med de smÃ¥ ting."
+          title: "Den Lille Hjælper er klar igen 📎"
+          message: "Jeg er vågen igen og holder øje med de små ting."
           tag: helper_startup
   - id: reset_daily_health_flags
     alias: "Nulstil daglige sundhedsflag"
@@ -447,7 +447,7 @@ automation:
             - counter.pomodoro_sessions_today
             - counter.the_little_helper_mascot_taps
   - id: morning_pill_reminder_with_escalation
-    alias: "Morgenpiller - pÃ¥mindelse med eskalering"
+    alias: "Morgenpiller - påmindelse med eskalering"
     mode: restart
     trigger:
       - platform: time
@@ -465,8 +465,8 @@ automation:
           sequence:
             - service: script.the_little_helper_notify
               data:
-                title: "Morgenpiller ðŸ’Š"
-                message: "pillerne venter pÃ¥ dig. Tryk Taget, nÃ¥r de er klaret."
+                title: "Morgenpiller 💊"
+                message: "pillerne venter på dig. Tryk Taget, når de er klaret."
                 tag: morning_pills
                 actions:
                   - action: MORNING_PILLS_TAKEN
@@ -481,9 +481,9 @@ automation:
               then:
                 - service: script.the_little_helper_speak
                   data:
-                    message: "Hov, morgenpillerne venter stadig pÃ¥ dig."
+                    message: "Hov, morgenpillerne venter stadig på dig."
   - id: evening_pill_reminder_with_escalation
-    alias: "Aftenpiller - pÃ¥mindelse med eskalering"
+    alias: "Aftenpiller - påmindelse med eskalering"
     mode: restart
     trigger:
       - platform: time
@@ -501,8 +501,8 @@ automation:
           sequence:
             - service: script.the_little_helper_notify
               data:
-                title: "Aftenpiller ðŸ’Š"
-                message: "aftenpillerne venter stille og roligt pÃ¥ dig."
+                title: "Aftenpiller 💊"
+                message: "aftenpillerne venter stille og roligt på dig."
                 tag: evening_pills
                 actions:
                   - action: EVENING_PILLS_TAKEN
@@ -517,9 +517,9 @@ automation:
               then:
                 - service: script.the_little_helper_speak
                   data:
-                    message: "Hov, aftenpillerne venter stadig pÃ¥ dig."
+                    message: "Hov, aftenpillerne venter stadig på dig."
   - id: pill_notification_actions
-    alias: "Piller - hÃ¥ndter notifikationsknapper"
+    alias: "Piller - håndter notifikationsknapper"
     mode: parallel
     trigger:
       - platform: event
@@ -629,7 +629,7 @@ automation:
             target:
               entity_id: input_boolean.badge_workouts_4weeks
   - id: gym_zone_workout_detection
-    alias: "TrÃ¦ning - registrer gymbesÃ¸g"
+    alias: "Træning - registrer gymbesøg"
     mode: single
     trigger:
       - platform: state
@@ -641,7 +641,7 @@ automation:
         target:
           entity_id: input_boolean.workout_completed_today
   - id: manual_workout_log
-    alias: "TrÃ¦ning - manuel registrering"
+    alias: "Træning - manuel registrering"
     mode: single
     trigger:
       - platform: state
@@ -651,7 +651,7 @@ automation:
         target:
           entity_id: input_boolean.workout_completed_today
   - id: workout_completed_actions
-    alias: "TrÃ¦ning - bekrÃ¦ft og tÃ¦l"
+    alias: "Træning - bekræft og tæl"
     mode: single
     trigger:
       - platform: state
@@ -663,11 +663,11 @@ automation:
           entity_id: counter.workouts_this_week
       - service: script.the_little_helper_notify
         data:
-          title: "TrÃ¦ning registreret ðŸ’ª"
-          message: "stÃ¦rkt arbejde. Vi tÃ¦ller den med i ugen."
+          title: "Træning registreret 💪"
+          message: "stærkt arbejde. Vi tæller den med i ugen."
           tag: workout
   - id: reset_weekly_workouts
-    alias: "TrÃ¦ning - nulstil uge"
+    alias: "Træning - nulstil uge"
     mode: single
     trigger:
       - platform: time
@@ -691,7 +691,7 @@ automation:
         target:
           entity_id: counter.workouts_this_week
   - id: pomodoro_focus_finished
-    alias: "Pomodoro - fokus fÃ¦rdig"
+    alias: "Pomodoro - fokus færdig"
     mode: single
     trigger:
       - platform: event
@@ -704,19 +704,19 @@ automation:
           entity_id: counter.pomodoro_sessions_today
       - service: script.the_little_helper_notify
         data:
-          title: "Tid til pause â˜•"
+          title: "Tid til pause ☕"
           message: "godt fokuseret. Nu tager vi pausen rigtigt."
           tag: pomodoro
       - service: script.the_little_helper_speak
         data:
-          message: "Fokus-timeren er fÃ¦rdig. Tid til pause."
+          message: "Fokus-timeren er færdig. Tid til pause."
       - service: timer.start
         target:
           entity_id: timer.pomodoro_break
         data:
           duration: "00:{{ states('input_number.pomodoro_break_minutes') | int(10) }}:00"
   - id: pomodoro_break_finished
-    alias: "Pomodoro - pause fÃ¦rdig"
+    alias: "Pomodoro - pause færdig"
     mode: single
     trigger:
       - platform: event
@@ -726,8 +726,8 @@ automation:
     action:
       - service: script.the_little_helper_notify
         data:
-          title: "Tilbage til arbejde ðŸš€"
-          message: "pausen er landet. Skal vi tage nÃ¦ste lille fokusblok?"
+          title: "Tilbage til arbejde 🚀"
+          message: "pausen er landet. Skal vi tage næste lille fokusblok?"
           tag: pomodoro
   - id: stop_pomodoro_button
     alias: "Pomodoro - stopknap"
@@ -742,7 +742,7 @@ automation:
             - timer.pomodoro_focus
             - timer.pomodoro_break
   - id: mood_prompt_morning
-    alias: "HumÃ¸r - morgenprompt"
+    alias: "Humør - morgenprompt"
     mode: single
     trigger:
       - platform: time
@@ -755,8 +755,8 @@ automation:
     action:
       - service: script.the_little_helper_notify
         data:
-          title: "MorgenhumÃ¸r"
-          message: "hvordan har du det i dag? VÃ¦lg 1-10."
+          title: "Morgenhumør"
+          message: "hvordan har du det i dag? Vælg 1-10."
           tag: mood_morning
           actions:
             - action: MOOD_MORNING_1
@@ -780,7 +780,7 @@ automation:
             - action: MOOD_MORNING_10
               title: "10"
   - id: mood_prompt_evening
-    alias: "HumÃ¸r - aftenprompt"
+    alias: "Humør - aftenprompt"
     mode: single
     trigger:
       - platform: time
@@ -793,8 +793,8 @@ automation:
     action:
       - service: script.the_little_helper_notify
         data:
-          title: "AftenhumÃ¸r"
-          message: "hvordan har dagen vÃ¦ret? VÃ¦lg 1-10."
+          title: "Aftenhumør"
+          message: "hvordan har dagen været? Vælg 1-10."
           tag: mood_evening
           actions:
             - action: MOOD_EVENING_1
@@ -818,7 +818,7 @@ automation:
             - action: MOOD_EVENING_10
               title: "10"
   - id: mood_notification_actions
-    alias: "HumÃ¸r - hÃ¥ndter notifikationsknapper"
+    alias: "Humør - håndter notifikationsknapper"
     mode: parallel
     trigger:
       - platform: event
@@ -842,7 +842,7 @@ automation:
                 data:
                   value: "{{ action_name.split('_')[-1] | int }}"
   - id: weekly_report_sunday
-    alias: "Ugentlig rapport - sÃ¸ndag aften"
+    alias: "Ugentlig rapport - søndag aften"
     mode: single
     trigger:
       - platform: time
@@ -862,7 +862,7 @@ automation:
     action:
       - service: script.generate_weekly_report
   - id: mascot_easter_egg
-    alias: "Den Lille HjÃ¦lper - maskot easter egg"
+    alias: "Den Lille Hjælper - maskot easter egg"
     mode: restart
     trigger:
       - platform: state
@@ -878,8 +878,8 @@ automation:
         then:
           - service: script.the_little_helper_notify
             data:
-              title: "Du fandt mig ðŸ“Ž"
-              message: "det tÃ¦ller som en lille sejr. Videre med ro pÃ¥."
+              title: "Du fandt mig 📎"
+              message: "det tæller som en lille sejr. Videre med ro på."
               tag: helper_easter_egg
       - service: counter.reset
         target:
